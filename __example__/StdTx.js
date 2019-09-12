@@ -26,19 +26,9 @@ export class StdSignature {
     }
 }
 
-export class MsgSend extends Msg{
-    constructor(properties){
-        super("irishub/bank/Send");
-        this.input = properties.input;
-        this.output = properties.output
-    }
-}
-
-export class MsgDelegate extends Msg{
-    constructor(properties){
-        super("irishub/stake/MsgDelegate");
-        this.delegatorAddr = properties.delegatorAddr;
-        this.validatorAddr = properties.validatorAddr;
-        this.delegation = properties.delegation
+export class Coin {
+    constructor(denom,amount){
+        this.denom = denom;
+        this.amount = amount;
     }
 }

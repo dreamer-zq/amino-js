@@ -1,8 +1,13 @@
 import {Codec} from "../src";
-import {StdFee,StdTx,StdSignature,MsgSend,MsgDelegate} from "./msg";
+import {StdFee,StdTx,StdSignature,Coin} from "../__example__/StdTx";
+import MsgSend from "../__example__/MsgSend";
+import MsgDelegate from "../__example__/MsgDelegate";
+
+import chai from "chai"
+const assert = chai.assert;
 
 const sender = Buffer.from([76,88,159,138,37,0,233,9,9,54,6,236,43,14,141,39,151,170,233,196]);
-const fee = { denom :"iris-atto", amount :"600000000000000000"};
+const fee = new Coin("iris-atto","600000000000000000");
 const stdFee = new StdFee([fee],20000);
 const pub_key = Buffer.from([235,90,233,135,33,3,128,234,6,23,16,160,236,237,58,91,222,102,37,248,194,84,147,67,253,21,94,208,251,92,39,91,77,163,146,76,185,81]);
 const account_number = 2;
@@ -16,11 +21,11 @@ describe("codec", () => {
         let msg = new MsgSend({
             input: {
                 address: sender,
-                coins: [{ denom :"iris-atto", amount :"10000000000000000000"}],
+                coins: [new Coin("iris-atto", "10000000000000000000")],
             },
             output: {
                 address: receipt,
-                coins: [{ denom :"iris-atto", amount :"10000000000000000000"}],
+                coins: [new Coin("iris-atto", "10000000000000000000")],
             }
         });
 
@@ -38,16 +43,15 @@ describe("codec", () => {
         let msg = new MsgDelegate({
             delegatorAddr: sender,
             validatorAddr: validator,
-            delegation: {
-                denom: "iris-atto",
-                amount: "1000000000000000000000000"
-            }
+            delegation: new Coin("iris-atto", "1000000000000000000000000")
         });
 
         let stdSignature = new StdSignature(pub_key,signature,account_number,sequence);
         const stdTx = new StdTx([msg],stdFee,stdSignature,memo);
         const bytes = Codec.marshalBinary(stdTx);
-        console.log(bytes.toString("hex"));
+
+        let expect = "f801d91e76b00a586af6af3b0a144c589f8a2500e909093606ec2b0e8d2797aae9c41214ef6d98f372ffc2d2e6146c41b192b9462797a4fd1a260a09697269732d6174746f12193130303030303030303030303030303030303030303030303012250a1f0a09697269732d6174746f121236303030303030303030303030303030303010a09c011a6e0a26eb5ae987210380ea061710a0eced3a5bde6625f8c2549343fd155ed0fb5c275b4da3924cb9511240c118f3d7ef8c36f65ed0e16f171c94e20f53fd56559c569d767422e548b4598538f269bd1e366e6d2c00c8c128bd0a83c5cfdbcb9eb35957e4c4e14b8a295ae61802200c220131";
+        assert.equal(bytes.toString('hex'),expect)
     });
 });
 

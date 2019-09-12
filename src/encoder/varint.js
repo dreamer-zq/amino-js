@@ -61,5 +61,5 @@ const varInt = (signed)=> {
 
     return { encode, decode, encodingLength }
 };
-export const VarInt = varInt(false);
-export const UVarInt = varInt(true);
+export const VarInt = varInt(true);
+export const UVarInt = varInt(false);
