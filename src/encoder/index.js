@@ -3,10 +3,10 @@
  */
 
 import vstruct from "varstruct"
-import { Buffer } from "safe-buffer"
+import {Buffer} from "safe-buffer"
 import is from "is_js"
 
-import { UVarInt } from "./varint"
+import {UVarInt} from "./varint"
 import typeToTyp3 from "../typeToTyp3"
 
 const VarString = vstruct.VarString(UVarInt);
@@ -35,7 +35,7 @@ const encodeNumber = (num) => UVarInt.encode(num);
  * encode bool
  * @param b
  */
-const encodeBool = (b) => b ? UVarInt.encode(1): UVarInt.encode(0);
+const encodeBool = (b) => b ? UVarInt.encode(1) : UVarInt.encode(0);
 
 /**
  * encode string
@@ -54,10 +54,10 @@ const encodeTime = (value) => {
 
     const buffer = Buffer.alloc(14);
 
-    buffer[0] = (1 << 3) | 1 ;// field 1, typ3 1
+    buffer[0] = (1 << 3) | 1;// field 1, typ3 1
     buffer.writeUInt32LE(seconds, 1);
 
-    buffer[9] = (2 << 3) | 5 ;// field 2, typ3 5
+    buffer[9] = (2 << 3) | 5;// field 2, typ3 5
     buffer.writeUInt32LE(nanos, 10);
 
     return buffer
@@ -88,7 +88,7 @@ const encodeTypeAndField = (index, field) => {
 };
 
 const isDefaultValue = (obj) => {
-    if(obj === null) return false;
+    if (obj === null) return false;
 
     return (is.number(obj) && obj === 0)
         || (is.string(obj) && obj === "")
@@ -96,33 +96,33 @@ const isDefaultValue = (obj) => {
         || (is.boolean(obj) && !obj)
 };
 
-export class Encoder{
-    constructor(typePrefixes = {}){
+export default class Encoder {
+    constructor(typePrefixes = {}) {
         this._typePrefixes = typePrefixes
     }
 
-    marshalBinary(obj){
+    marshalBinary(obj) {
         if (!is.object(obj))
             throw new TypeError("data must be an object");
 
         return this._encodeBinary(obj, -1, true)
     };
 
-    marshalBinaryBare(obj){
+    marshalBinaryBare(obj) {
         if (!is.object(obj))
             throw new TypeError("data must be an object");
 
         return this._encodeBinary(obj).toString("hex")
     }
 
-    marshalJSON(obj){
+    marshalJSON(obj) {
         if (!is.object(obj))
             throw new TypeError("data must be an object");
         let msg = {};
-        if(this._typePrefixes[obj.__msgType__]){
+        if (this._typePrefixes[obj.__msgType__]) {
             msg.type = obj.__msgType__;
             msg.value = obj
-        }else {
+        } else {
             msg = obj
         }
         return JSON.stringify(msg)
@@ -135,35 +135,35 @@ export class Encoder{
      * @param {Boolean} isByteLenPrefix
      * @return {Buffer} binary of object.
      */
-    _encodeBinary(val, fieldNum, isByteLenPrefix){
+    _encodeBinary(val, fieldNum, isByteLenPrefix) {
         if (val === null || val === undefined) {
             throw new TypeError("unsupported type");
         }
 
-        if(Buffer.isBuffer(val)) {
-            if(isByteLenPrefix) {
+        if (Buffer.isBuffer(val)) {
+            if (isByteLenPrefix) {
                 return Buffer.concat([UVarInt.encode(val.length), val])
             }
             return val
         }
 
-        if(is.array(val)) {
+        if (is.array(val)) {
             return this._encodeArrayBinary(fieldNum, val, isByteLenPrefix)
         }
 
-        if(is.number(val)) {
+        if (is.number(val)) {
             return encodeNumber(val)
         }
 
-        if(is.boolean(val)) {
+        if (is.boolean(val)) {
             return encodeBool(val)
         }
 
-        if(is.string(val)) {
+        if (is.string(val)) {
             return encodeString(val)
         }
 
-        if(is.object(val)) {
+        if (is.object(val)) {
             return this._encodeObjectBinary(val, isByteLenPrefix)
         }
     };
@@ -174,7 +174,7 @@ export class Encoder{
      * @param {Boolean} isByteLenPrefix
      * @return {Buffer} bytes of array
      */
-    _encodeArrayBinary(fieldNum, arr, isByteLenPrefix){
+    _encodeArrayBinary(fieldNum, arr, isByteLenPrefix) {
         const result = [];
 
         arr.forEach((item) => {
@@ -189,7 +189,7 @@ export class Encoder{
         });
 
         //encode length
-        if(isByteLenPrefix){
+        if (isByteLenPrefix) {
             const length = result.reduce((prev, item) => (prev + item.length), 0);
             result.unshift(UVarInt.encode(length))
         }
@@ -202,7 +202,7 @@ export class Encoder{
      * @param {Object} obj
      * @return {Buffer} with bytes length prefixed
      */
-    _encodeObjectBinary(obj, isByteLenPrefix){
+    _encodeObjectBinary(obj, isByteLenPrefix) {
         const bufferArr = [];
         let index = 1;
         Object.keys(obj).forEach((key) => {
@@ -211,7 +211,7 @@ export class Encoder{
             if (isDefaultValue(obj[key])) return;
 
             if (is.array(obj[key]) && obj[key].length > 0) {
-                bufferArr.push(this._encodeArrayBinary(index, obj[key],false))
+                bufferArr.push(this._encodeArrayBinary(index, obj[key], false))
             } else {
                 bufferArr.push(encodeTypeAndField(index, obj[key]));
                 bufferArr.push(this._encodeBinary(obj[key], index, true))
@@ -222,13 +222,13 @@ export class Encoder{
         let bytes = Buffer.concat(bufferArr);
 
         // add prefix
-        if(this._typePrefixes[obj.__msgType__]) {
+        if (this._typePrefixes[obj.__msgType__]) {
             const prefix = Buffer.from(this._typePrefixes[obj.__msgType__]);
             bytes = Buffer.concat([prefix, bytes])
         }
 
         // Write byte-length prefixed.
-        if(isByteLenPrefix) {
+        if (isByteLenPrefix) {
             const lenBytes = UVarInt.encode(bytes.length);
             bytes = Buffer.concat([lenBytes, bytes])
         }

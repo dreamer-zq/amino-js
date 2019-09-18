@@ -1,8 +1,5 @@
-import {Msg} from "../src";
-
-export class StdTx extends Msg{
-    constructor(msg,fee,signatures,memo){
-        super("irishub/bank/StdTx");
+export class StdTx {
+    constructor(msg, fee, signatures, memo) {
         this.msg = msg;
         this.fee = fee;
         this.signatures = signatures;
@@ -11,14 +8,14 @@ export class StdTx extends Msg{
 }
 
 export class StdFee {
-    constructor(amount,gas){
+    constructor(amount, gas) {
         this.amount = amount;
         this.gas = gas;
     }
 }
 
 export class StdSignature {
-    constructor(pub_key,signature,account_number,sequence){
+    constructor(pub_key, signature, account_number, sequence) {
         this.pub_key = pub_key;
         this.signature = [signature];
         this.account_number = account_number;
@@ -27,8 +24,23 @@ export class StdSignature {
 }
 
 export class Coin {
-    constructor(denom,amount){
+    constructor(denom, amount) {
         this.denom = denom;
         this.amount = amount;
+    }
+}
+
+export class MsgSend {
+    constructor(properties) {
+        this.input = properties.input;
+        this.output = properties.output
+    }
+}
+
+export class MsgDelegate {
+    constructor(properties) {
+        this.delegatorAddr = properties.delegatorAddr;
+        this.validatorAddr = properties.validatorAddr;
+        this.delegation = properties.delegation
     }
 }

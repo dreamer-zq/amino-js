@@ -1,4 +1,4 @@
-import {Encoder} from "./encoder"
+import Encoder from "./encoder"
 import Sha256 from "sha256"
 
 const _aminoPrefix = (name) => {
@@ -25,28 +25,22 @@ const _hexToBytes = (hex) => {
 const _typPrefix = new Map();
 const _encoder = new Encoder(_typPrefix);
 
-export const Codec = {
-    registerConcrete : (msgType) => {
-        if (!msgType) return;
-        _typPrefix[msgType] = _aminoPrefix(msgType)
-    },
-
-    marshalBinary: (obj) => {
-        return _encoder.marshalBinary(obj)
-    },
-
-    marshalBinaryBare : (obj) => {
-        return _encoder.marshalBinaryBare(obj)
-    },
-
-    marshalJSON: (obj) => {
-        return _encoder.marshalJSON(obj)
-    },
-
-};
-export class Msg {
-    constructor(msgType){
-        this.__msgType__ = msgType;
-        Codec.registerConcrete(msgType)
+export default class Codec {
+    static registerConcrete(type, prefix) {
+        if (!type || !prefix) return;
+        type.prototype.__msgType__ = prefix;
+        _typPrefix[prefix] = _aminoPrefix(prefix)
     }
-}
+
+    static marshalBinary(obj) {
+        return _encoder.marshalBinary(obj)
+    }
+
+    static marshalBinaryBare(obj) {
+        return _encoder.marshalBinaryBare(obj)
+    }
+
+    static marshalJSON(obj) {
+        return _encoder.marshalJSON(obj)
+    }
+};
