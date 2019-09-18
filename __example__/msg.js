@@ -1,4 +1,4 @@
-export class Msg {
+export class StdTx {
     constructor(msg, fee, signatures, memo) {
         this.msg = msg;
         this.fee = fee;
