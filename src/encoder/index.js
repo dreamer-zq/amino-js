@@ -101,7 +101,7 @@ export default class Encoder {
         this._typePrefixes = typePrefixes
     }
 
-    marshalBinary(obj) {
+    marshalBinaryLengthPrefixed(obj) {
         if (!is.object(obj))
             throw new TypeError("data must be an object");
 
@@ -223,7 +223,7 @@ export default class Encoder {
 
         // add prefix
         if (this._typePrefixes[obj.__msgType__]) {
-            const prefix = Buffer.from(this._typePrefixes[obj.__msgType__]);
+            const prefix = Buffer.from(this._typePrefixes[obj.__msgType__].preByte);
             bytes = Buffer.concat([prefix, bytes])
         }
 
