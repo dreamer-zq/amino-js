@@ -50,7 +50,7 @@ export default class Decoder {
       throw new Error(`Error reading msg byte-length prefix: got code ${len}`);
 
     bytes = bytes.slice(len);
-
+    type = this.getInstance(type,bytes.slice(0,4));
     return this.unMarshalBinaryBare(bytes, type)
   };
 
@@ -119,7 +119,7 @@ export default class Decoder {
       return decoder(bytes, varString)
     }
 
-    if(is.object(type)) {
+    if(is.object(type) || type === undefined) {
       return this.decodeObjectBinary(bytes, type, isLengthPrefixed)
     }
   };
@@ -135,6 +135,7 @@ export default class Decoder {
     }
 
     // If registered concrete, consume and verify prefix bytes.
+    type = this.getInstance(type,bytes.slice(0,4));
     if(this._typePrefixes[type.__msgType__]) {
       bytes = bytes.slice(4);
       objectOffset += 4;
@@ -182,5 +183,17 @@ export default class Decoder {
       }
     });
     return { val: type, offset: objectOffset }
+  }
+
+  getInstance(type,prefixByte){
+    if (is.undefined(type)) {
+      let prefix = Buffer.from(prefixByte).toString("hex");
+      let Type = this._typePrefixes[prefix];
+      if(is.undefined(Type)) {
+        throw new Error("you must specify a specific type or register it to codec")
+      }
+      type = new Type()
+    }
+    return type
   }
 }

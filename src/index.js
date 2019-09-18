@@ -33,10 +33,8 @@ export default class Codec {
         type.prototype.__msgType__ = prefix;
 
         const bzPrefix = _aminoPrefix(prefix);
-        _typPrefix[prefix] = {
-            preByte: bzPrefix,
-            type: type
-        };
+        _typPrefix[prefix] = bzPrefix;
+        _typPrefix[Buffer.from(bzPrefix).toString("hex")] = type;
     }
 
     static marshalBinaryLengthPrefixed(obj) {
@@ -52,6 +50,7 @@ export default class Codec {
     }
 
     static unMarshalBinaryLengthPrefixed(bytes,type) {
-        return _decoder.unMarshalBinaryLengthPrefixed(bytes,type)
+        const result = _decoder.unMarshalBinaryLengthPrefixed(bytes,type);
+        return result.val || {}
     }
 };

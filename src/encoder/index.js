@@ -223,7 +223,7 @@ export default class Encoder {
 
         // add prefix
         if (this._typePrefixes[obj.__msgType__]) {
-            const prefix = Buffer.from(this._typePrefixes[obj.__msgType__].preByte);
+            const prefix = Buffer.from(this._typePrefixes[obj.__msgType__]);
             bytes = Buffer.concat([prefix, bytes])
         }
 

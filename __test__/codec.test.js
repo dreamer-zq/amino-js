@@ -68,15 +68,7 @@ describe("codec", () => {
         let expect = "f801d91e76b00a586af6af3b0a144c589f8a2500e909093606ec2b0e8d2797aae9c41214ef6d98f372ffc2d2e6146c41b192b9462797a4fd1a260a09697269732d6174746f12193130303030303030303030303030303030303030303030303012250a1f0a09697269732d6174746f121236303030303030303030303030303030303010a09c011a6e0a26eb5ae987210380ea061710a0eced3a5bde6625f8c2549343fd155ed0fb5c275b4da3924cb9511240c118f3d7ef8c36f65ed0e16f171c94e20f53fd56559c569d767422e548b4598538f269bd1e366e6d2c00c8c128bd0a83c5cfdbcb9eb35957e4c4e14b8a295ae61802200c220131";
         assert.equal(bytes.toString('hex'), expect);
 
-        const msgBytes = Codec.marshalBinaryLengthPrefixed(msg);
-        const m = new MsgDelegate();
-        Codec.unMarshalBinaryLengthPrefixed(msgBytes,m);
-        assert.equal(JSON.stringify(m), JSON.stringify(msg));
-
-        const stdTx2 = new StdTx({
-            msgs : [new MsgDelegate()]
-        });
-        Codec.unMarshalBinaryLengthPrefixed(bytes,stdTx2);
+        const stdTx2 = Codec.unMarshalBinaryLengthPrefixed(bytes);
         assert.equal(JSON.stringify(stdTx), JSON.stringify(stdTx2));
     });
 
@@ -85,10 +77,7 @@ describe("codec", () => {
         let txBz = new Buffer(tx, 'base64');
         console.log(JSON.stringify(txBz));
 
-        const stdTx = new StdTx({
-            msgs : [new MsgDelegate()]
-        });
-        Codec.unMarshalBinaryLengthPrefixed(txBz,stdTx);
+        const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz);
         console.log(JSON.stringify(stdTx))
     })
 });

@@ -1,6 +1,6 @@
 export class StdTx {
     constructor(properties = {}) {
-        this.msgs = properties.msgs;
+        this.msgs = properties.msgs || [];
         this.fee = properties.fee || new StdFee();
         this.signatures = properties.signatures || new StdSignature();
         this.memo = properties.memo || ""
