@@ -30,10 +30,24 @@ export class Coin {
     }
 }
 
+export class Input {
+    constructor(properties = {}) {
+        this.address = properties.address || Buffer.alloc(0);
+        this.coins = properties.coins || [new Coin()];
+    }
+}
+
+export class Output {
+    constructor(properties = {}) {
+        this.address = properties.address || Buffer.alloc(0);
+        this.coins = properties.coins || [new Coin()];
+    }
+}
+
 export class MsgSend {
     constructor(properties = {}) {
-        this.input = properties.input;
-        this.output = properties.output
+        this.input = properties.input || [new Input()];
+        this.output = properties.output || [new Output()]
     }
 }
 

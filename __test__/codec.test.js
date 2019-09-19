@@ -1,5 +1,5 @@
 import Codec from "../src";
-import {Coin, StdFee, StdSignature, StdTx, MsgSend ,MsgDelegate} from "../__example__/msg";
+import {Coin, StdFee, StdSignature, StdTx, MsgSend ,MsgDelegate,Input,Output} from "../__example__/msg";
 import chai from "chai"
 
 const assert = chai.assert;
@@ -23,16 +23,24 @@ describe("codec", () => {
         const receipt = Buffer.from([134, 152, 80, 35, 135, 38, 124, 211, 158, 176, 61, 130, 76, 234, 166, 214, 133, 57, 181, 7]);
         const signature = Buffer.from([156, 11, 125, 181, 8, 234, 122, 109, 230, 27, 184, 196, 197, 212, 169, 207, 205, 83, 32, 139, 91, 147, 17, 87, 9, 58, 105, 173, 211, 177, 197, 155, 26, 212, 250, 0, 80, 102, 73, 14, 235, 68, 74, 28, 149, 51, 127, 182, 66, 222, 200, 153, 11, 91, 101, 37, 19, 138, 139, 79, 148, 47, 191, 147]);
         const sequence = 57;
-        let msg = new MsgSend({
-            input: {
-                address: sender,
-                coins: [new Coin("iris-atto", "10000000000000000000")],
-            },
-            output: {
-                address: receipt,
-                coins: [new Coin("iris-atto", "10000000000000000000")],
-            }
+
+        let input = new Input({
+            address: sender,
+            coins: [new Coin("iris-atto", "10000000000000000000")],
         });
+
+        let output = new Output({
+            address: receipt,
+            coins: [new Coin("iris-atto", "10000000000000000000")],
+        });
+
+        let msg = new MsgSend({
+            input: [input],
+            output: [output]
+        });
+
+        const msg2 = Codec.unMarshalBinaryLengthPrefixed(Codec.marshalBinaryLengthPrefixed(msg));
+        assert.equal(JSON.stringify(msg2), JSON.stringify(msg));
 
         let stdSignature = new StdSignature(pub_key, [signature], account_number, sequence);
         const stdTx = new StdTx({
@@ -42,7 +50,11 @@ describe("codec", () => {
             memo: memo
         });
         const bytes = Codec.marshalBinaryLengthPrefixed(stdTx);
-        console.log(JSON.stringify(bytes));
+        let expect = "9a02d91e76b00a7a2a9724ac0a390a144c589f8a2500e909093606ec2b0e8d2797aae9c412210a09697269732d6174746f1214313030303030303030303030303030303030303012390a148698502387267cd39eb03d824ceaa6d68539b50712210a09697269732d6174746f1214313030303030303030303030303030303030303012250a1f0a09697269732d6174746f121236303030303030303030303030303030303010a09c011a6e0a26eb5ae987210380ea061710a0eced3a5bde6625f8c2549343fd155ed0fb5c275b4da3924cb95112409c0b7db508ea7a6de61bb8c4c5d4a9cfcd53208b5b931157093a69add3b1c59b1ad4fa005066490eeb444a1c95337fb642dec8990b5b6525138a8b4f942fbf9318022039220131";
+        assert.equal(bytes.toString('hex'), expect);
+
+        const stdTx2 = Codec.unMarshalBinaryLengthPrefixed(bytes);
+        assert.equal(JSON.stringify(stdTx), JSON.stringify(stdTx2));
     });
 
     it("encode MsgDelegate", () => {
@@ -78,7 +90,7 @@ describe("codec", () => {
         console.log(JSON.stringify(txBz));
 
         const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz);
-        console.log(JSON.stringify(stdTx))
+        console.log(stdTx)
     })
 });
 

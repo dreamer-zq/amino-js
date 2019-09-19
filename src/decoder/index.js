@@ -16,7 +16,17 @@ import typeToTyp3 from "../typeToTyp3"
 const decoder = (bytes, varType) => {
   const val = varType.decode(bytes, 0);
   const offset = varType.encodingLength(val);
-  return { val, offset }
+  return { val: val, offset: offset }
+};
+
+const setDefaultValue = (type, key)=>{
+  if(is.object(type[key])) type[key] = null;
+
+  if(is.number(type[key])) type[key] = 0;
+
+  if(is.boolean(type[key])) type[key] = false;
+
+  if(is.string(type[key])) type[key] = "";
 };
 
 const decodeFieldNumberAndTyp3 = (bytes) => {
@@ -85,7 +95,7 @@ export default class Decoder {
       bytes = bytes.slice(1);
 
       //is default value, skip and continue read bytes
-      if(bytes.length > 0 && bytes[0] === 0x00) continue;
+      if(bytes.length > 0 && (bytes[0] === 0x00)) continue;
 
       const { offset, val } = this.decodeBinary(bytes, type, true);
 
@@ -100,7 +110,7 @@ export default class Decoder {
 
   decodeBinary(bytes, type, isLengthPrefixed){
     if(Buffer.isBuffer(type)) {
-      return decoder(bytes, varBytes)
+      return decoder(bytes, varBytes);
     }
 
     if(is.array(type)) {
@@ -145,7 +155,8 @@ export default class Decoder {
     const keys = Object.keys(type);
     keys.forEach((key, index) => {
       if (is.array(type[key])) {
-        const { offset, val } = this.decodeArrayBinary(bytes, type[key][0]);
+        let bz = bytes.slice(0,bytes[1] + 2);
+        const { offset, val } = this.decodeArrayBinary(bz, type[key][0]);
         objectOffset += offset;
         type[key] = val;
         bytes = bytes.slice(offset)
@@ -153,20 +164,22 @@ export default class Decoder {
         const { fieldNum, typ } = decodeFieldNumberAndTyp3(bytes);
 
         //if this field is default value, continue
-        if(index+1 < fieldNum || fieldNum < 0) return;
+        if(index + 1 !== fieldNum || fieldNum < 0) {
+          setDefaultValue(type, key);
+          return
+        }
 
         if(fieldNum <= lastFieldNum) {
-          throw new Error(`encountered fieldNum: ${fieldNum}, but we have already seen fnum: ${lastFieldNum}`)
+          throw new Error(`encountered fieldNum: ${fieldNum}, but we have already seen num: ${lastFieldNum}`)
         }
 
         lastFieldNum = fieldNum;
 
-        if(index+1 !== fieldNum) {
+        if(index + 1 !== fieldNum) {
           throw new Error("field number is not expected")
         }
 
         const typeWanted = typeToTyp3(type[key]);
-
         if(typ !== typeWanted) {
           throw new Error("field type is not expected")
         }
@@ -174,8 +187,8 @@ export default class Decoder {
         //remove 1 byte of type
         bytes = bytes.slice(1);
 
-        const { val, offset } = this.decodeBinary(bytes, type[key], true);
-        type[key] = val;
+        const { val : value, offset : offset } = this.decodeBinary(bytes, type[key], true);
+        type[key] = value;
 
         //remove decoded bytes
         bytes = bytes.slice(offset);
