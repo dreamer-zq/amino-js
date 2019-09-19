@@ -41,16 +41,16 @@ export default class Codec {
         return _encoder.marshalBinaryLengthPrefixed(obj)
     }
 
+    static unMarshalBinaryLengthPrefixed(bytes,type) {
+        const result = _decoder.unMarshalBinaryLengthPrefixed(bytes,type);
+        return result.val || {}
+    }
+
     static marshalBinaryBare(obj) {
         return _encoder.marshalBinaryBare(obj)
     }
 
     static marshalJSON(obj) {
         return _encoder.marshalJSON(obj)
-    }
-
-    static unMarshalBinaryLengthPrefixed(bytes,type) {
-        const result = _decoder.unMarshalBinaryLengthPrefixed(bytes,type);
-        return result.val || {}
     }
 };
