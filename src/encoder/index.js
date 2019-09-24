@@ -206,7 +206,7 @@ export default class Encoder {
         const bufferArr = [];
         let index = 1;
         Object.keys(obj).forEach((key) => {
-            if (key === "__msgType__" || key === "version") return;
+            if (key.startsWith("__")) return;
 
             if (isDefaultValue(obj[key])) return;
 
