@@ -113,15 +113,13 @@ export default class Encoder {
   }
 
   marshalJSON (obj) {
-    if (!is.object(obj)) { throw new TypeError('data must be an object') }
     let msg = {}
     if (this._typePrefixes[obj.__msgType__]) {
       msg.type = obj.__msgType__
       msg.value = obj
-    } else {
-      msg = obj
+      return msg
     }
-    return JSON.stringify(msg)
+    return obj
   }
 
   /**

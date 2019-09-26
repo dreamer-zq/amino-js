@@ -1,12 +1,23 @@
 import * as iris from './msg/iris'
 import * as cosmos from './msg/cosmos'
-import * as common from './msg/common'
-import Codec from './codec'
+import * as config from './config'
+import * as amino from './codec'
 
-Codec.registerConcrete(common.StdTx, 'irishub/bank/StdTx')
-Codec.registerConcrete(iris.MsgSend, 'irishub/bank/Send')
-Codec.registerConcrete(iris.MsgDelegate, 'irishub/stake/MsgDelegate')
+const codec = amino.default
+codec.registerConcrete(iris.StdTx, config.iris.model.stdTx)
+codec.registerConcrete(iris.MsgSend, config.iris.model.msgSend)
+codec.registerConcrete(iris.MsgDelegate, config.iris.model.msgDelegate)
 
 export const IRIS = iris
 export const COSMOS = cosmos
-export const AMINO = Codec
+export const Codec = codec
+
+export function setNetwork(network){
+    if(network && network === 'testnet'){
+        config.iris.bech32 = {
+            accAddr: "faa",
+            valAddr: "fva",
+            accPub: "fap"
+        };
+    }
+}

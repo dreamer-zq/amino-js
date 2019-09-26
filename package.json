@@ -13,6 +13,7 @@
     "varstruct": "^6.1.2",
     "bn.js": "^4.11.8",
     "sha256": "^0.2.0",
+    "bech32": "^1.1.3",
     "protocol-buffers-encodings": "latest"
   },
   "devDependencies": {
