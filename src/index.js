@@ -1,6 +1,6 @@
 import * as iris from './msg/iris'
 import * as cosmos from './msg/cosmos'
-import * as config from './config'
+import config from './config'
 import * as amino from './codec'
 
 const codec = amino.default
