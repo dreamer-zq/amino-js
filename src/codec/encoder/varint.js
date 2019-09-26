@@ -1,5 +1,5 @@
 'use strict'
-const BN = require('../../../node_modules/bn.js/lib/bn')
+const BN = require("bn.js");
 
 const varInt = (signed) => {
   /**
