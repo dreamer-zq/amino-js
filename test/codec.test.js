@@ -18,7 +18,7 @@ describe('codec', () => {
     const receipt = new AccAddress([134, 152, 80, 35, 135, 38, 124, 211, 158, 176, 61, 130, 76, 234, 166, 214, 133, 57, 181, 7])
     const signature = Buffer.from([156, 11, 125, 181, 8, 234, 122, 109, 230, 27, 184, 196, 197, 212, 169, 207, 205, 83, 32, 139, 91, 147, 17, 87, 9, 58, 105, 173, 211, 177, 197, 155, 26, 212, 250, 0, 80, 102, 73, 14, 235, 68, 74, 28, 149, 51, 127, 182, 66, 222, 200, 153, 11, 91, 101, 37, 19, 138, 139, 79, 148, 47, 191, 147])
     const sequence = 57
-    const msg = MsgSend.create(sender, receipt, new Coin('iris-atto', '10000000000000000000'))
+    const msg = MsgSend.create(sender, receipt, [new Coin('iris-atto', '10000000000000000000')])
     const msg2 = Codec.unMarshalBinaryLengthPrefixed(Codec.marshalBinaryLengthPrefixed(msg))
     assert.equal(JSON.stringify(msg2), JSON.stringify(msg))
 

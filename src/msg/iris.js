@@ -111,8 +111,8 @@ export class MsgSend {
 
   static create (from, to, amount) {
     return new MsgSend({
-      input: [new Input({ address: from, coins: [amount] })],
-      output: [new Output({ address: to, coins: [amount] })]
+      input: [new Input({ address: from, coins: amount })],
+      output: [new Output({ address: to, coins: amount })]
     })
   }
 
