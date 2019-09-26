@@ -2,9 +2,10 @@
   "name": "amino-js",
   "version": "1.0.0",
   "scripts": {
+    "test": "mocha --compilers js:babel-core/register",
     "build": "rm -rf lib && npx babel src -d lib",
     "prepublishOnly": "npm run build",
-    "lint": "eslint --fix src __test__ __example__"
+    "lint": "eslint --fix src test src/msg"
   },
   "dependencies": {
     "is_js": "^0.9.0",

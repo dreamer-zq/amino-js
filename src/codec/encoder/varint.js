@@ -1,5 +1,5 @@
 'use strict'
-const BN = require('bn.js')
+const BN = require('../../../node_modules/bn.js/lib/bn')
 
 const varInt = (signed) => {
   /**
@@ -33,7 +33,7 @@ const varInt = (signed) => {
     n = n.toString()
     let bn = new BN(n, 10)
 
-    // amino signed varint is multiplied by 2
+    // codec signed varint is multiplied by 2
     if (signed) {
       bn = bn.muln(2)
     }

@@ -1,7 +1,7 @@
 import is from 'is_js'
 
 // typeToTyp3
-// amino type convert
+// codec type convert
 export default type => {
   if (is.boolean(type)) {
     return 0
