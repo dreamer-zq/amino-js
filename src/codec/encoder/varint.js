@@ -1,5 +1,5 @@
 'use strict'
-const BN = require("bn.js");
+const BN = require('bn.js')
 
 const varInt = (signed) => {
   /**

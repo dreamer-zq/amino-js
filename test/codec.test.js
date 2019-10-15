@@ -1,8 +1,8 @@
-import { Codec,setNetwork,IRIS } from '../src'
+import { Codec, setNetwork, IRIS } from '../lib'
 import chai from 'chai'
 import { Buffer } from 'safe-buffer'
 
-//setNetwork('testnet')
+// setNetwork('testnet')
 
 const assert = chai.assert
 const sender = new IRIS.AccAddress([76, 88, 159, 138, 37, 0, 233, 9, 9, 54, 6, 236, 43, 14, 141, 39, 151, 170, 233, 196])

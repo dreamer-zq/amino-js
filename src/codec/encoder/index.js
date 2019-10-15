@@ -113,7 +113,7 @@ export default class Encoder {
   }
 
   marshalJSON (obj) {
-    let msg = {}
+    const msg = {}
     if (this._typePrefixes[obj.__msgType__]) {
       msg.type = obj.__msgType__
       msg.value = obj

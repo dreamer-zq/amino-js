@@ -1,5 +1,5 @@
 import * as iris from './msg/iris'
-//import * as cosmos from './msg/cosmos'
+// import * as cosmos from './msg/cosmos'
 import config from './config'
 import * as amino from './codec'
 
@@ -15,15 +15,15 @@ codec.registerConcrete(iris.MsgDeposit, config.iris.model.MsgDeposit)
 codec.registerConcrete(iris.MsgVote, config.iris.model.MsgVote)
 
 export const IRIS = iris
-//export const COSMOS = cosmos
+// export const COSMOS = cosmos
 export const Codec = codec
 
-export function setNetwork(network){
-    if(network && network === 'testnet'){
-        config.iris.bech32 = {
-            accAddr: "faa",
-            valAddr: "fva",
-            accPub: "fap"
-        };
+export function setNetwork (network) {
+  if (network && network === 'testnet') {
+    config.iris.bech32 = {
+      accAddr: 'faa',
+      valAddr: 'fva',
+      accPub: 'fap'
     }
+  }
 }
