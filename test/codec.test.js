@@ -3,7 +3,7 @@ import { Coin, StdFee, StdSignature, StdTx, AccAddress,MsgSend, MsgDelegate } fr
 import chai from 'chai'
 import { Buffer } from 'safe-buffer'
 
-setNetwork('testnet')
+//setNetwork('testnet')
 
 const assert = chai.assert
 const sender = new AccAddress([76, 88, 159, 138, 37, 0, 233, 9, 9, 54, 6, 236, 43, 14, 141, 39, 151, 170, 233, 196])
@@ -63,6 +63,13 @@ describe('codec', () => {
 
   it('decode MsgDelegate', () => {
     const tx = '+gHZHnawClZq9q87ChRvnmOH06Nbe/HjZ3UHiJvFNIoqWBIUQUjWqc1EICBEmntpvID7SMRea2UaJAoJaXJpcy1hdHRvEhc1NjQ4ODAwMDAwMDAwMDAwMDAwMDAwMBIlCh8KCWlyaXMtYXR0bxISNjAwMDAwMDAwMDAwMDAwMDAwEKCNBhpvCibrWumHIQNzWoVZHQoK31cW7odpxs23ONYfYwG4LcoM5qeR/Uxm9hJAV1ZYiGClvu3eI/HjkYyEYCNqpSUoG7EbUf+gIfKMGrhebhhsrZr0CGAJC7FkOY89a2A7yDmloqEbeUZkAnmdtBjERyAIIgQ5ODg3'
+    const txBz = new Buffer(tx, 'base64')
+    const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
+    console.log(JSON.stringify(stdTx))
+  })
+
+  it('decode MsgBeginUnbonding', () => {
+    const tx = '8gHZHnawClRT7PhYChTdgrgCKoPmoT9SdJLS8twmPJMRGRIUsPscdczRrb6Pmuq0nJuuqU7DynQaIjEwOTQ5OTg0OTkxMTM1MDgyMDY3Nzk1MTAwMDAwMDAwMDASJQofCglpcmlzLWF0dG8SEjQwMDAwMDAwMDAwMDAwMDAwMBDQhgMabwom61rphyEDk4uM/r0JDdyhjsz/ex9orRFnJTuh8tH9pOgFZNDkyFgSQABDQ76Vkdo6e9EGd3xNBjBDtiVY0dVZ3+vWPrsT14sBGD3EX9OE5KHv+rKHjgR50sjZdUYjYyq9v94Lp2VFmJ0YskAgSg=='
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
     console.log(JSON.stringify(stdTx))

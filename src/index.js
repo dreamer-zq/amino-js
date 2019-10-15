@@ -7,6 +7,7 @@ const codec = amino.default
 codec.registerConcrete(iris.StdTx, config.iris.model.stdTx)
 codec.registerConcrete(iris.MsgSend, config.iris.model.msgSend)
 codec.registerConcrete(iris.MsgDelegate, config.iris.model.msgDelegate)
+codec.registerConcrete(iris.MsgBeginUnbonding, config.iris.model.msgBeginUnbonding)
 
 export const IRIS = iris
 export const COSMOS = cosmos

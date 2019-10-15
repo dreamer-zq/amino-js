@@ -26,6 +26,15 @@ export class StdTx {
     this.signatures = properties.signatures || new StdSignature()
     this.memo = properties.memo || ''
   }
+
+  toJSON() {
+    return {
+      msgs: this.msgs,
+      fee: this.fee,
+      memo: this.memo,
+      signatures: this.signatures,
+    }
+  }
 }
 
 export class StdFee {
@@ -75,6 +84,14 @@ export class Input {
       throw new Error("coins is empty")
     }
   }
+
+  toJSON(){
+    let strByte = Bech32.toWords(this.address);
+    return  {
+      "address": Bech32.encode(config.iris.bech32.accAddr,strByte),
+      "coins": this.coins
+    };
+  }
 }
 
 export class Output {
@@ -100,6 +117,14 @@ export class Output {
     if (Utils.isEmpty(this.coins)) {
       throw new Error("coins is empty")
     }
+  }
+
+  toJSON(){
+    let strByte = Bech32.toWords(this.address);
+    return  {
+      "address": Bech32.encode(config.iris.bech32.accAddr,strByte),
+      "coins": this.coins
+    };
   }
 }
 
@@ -191,12 +216,22 @@ export class MsgDelegate {
       throw new Error("delegation must great than 0");
     }
   }
+
+  toJSON(){
+    let delegator = Bech32.toWords(this.delegatorAddr);
+    let validator = Bech32.toWords(this.validatorAddr);
+    return  {
+      delegatorAddr: Bech32.encode(config.iris.bech32.accAddr, delegator),
+      validatorAddr: Bech32.encode(config.iris.bech32.valAddr, validator),
+      delegation: this.delegation
+    }
+  }
 }
 
 export class MsgBeginUnbonding {
   constructor (properties = {}) {
-    this.delegatorAddr = properties.delegatorAddr || new AccAddress()
-    this.validatorAddr = properties.validatorAddr || new AccAddress()
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
+    this.validatorAddr = properties.validatorAddr || new AccAddress(0)
     this.shares = properties.shares || ''
   }
 
@@ -230,6 +265,16 @@ export class MsgBeginUnbonding {
 
     if (Utils.isEmpty(this.shares)) {
       throw new Error("shares must great than 0");
+    }
+  }
+
+  toJSON(){
+    let delegator = Bech32.toWords(this.delegatorAddr);
+    let validator = Bech32.toWords(this.validatorAddr);
+    return  {
+      delegatorAddr: Bech32.encode(config.iris.bech32.accAddr, delegator),
+      validatorAddr: Bech32.encode(config.iris.bech32.valAddr, validator),
+      shares: this.shares
     }
   }
 }
