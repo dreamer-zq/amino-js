@@ -27,8 +27,8 @@ export class StdFee {
 
 export class StdSignature {
   constructor (pub_key, signature, account_number, sequence) {
-    this.pub_key = pub_key || PubKeySecp256k1.alloc(0)
-    this.signature = signature || [SignatureSecp256k1.alloc(0)]
+    this.pub_key = pub_key || new PubKeySecp256k1()
+    this.signature = signature || [new SignatureSecp256k1()]
     this.account_number = account_number || 0
     this.sequence = sequence || 0
   }

@@ -6,8 +6,8 @@ import {Msg,AccAddress,Coin} from '../type'
 export class MsgDelegate extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
-    this.validatorAddr = properties.validatorAddr || new AccAddress(0)
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress()
+    this.validatorAddr = properties.validatorAddr || new AccAddress()
     this.delegation = properties.delegation || new Coin()
   }
 

@@ -4,7 +4,7 @@ import {Msg,AccAddress,Coin} from '../type'
 
 export class Input {
   constructor (properties = {}) {
-    this.address = properties.address || new AccAddress(0)
+    this.address = properties.address || new AccAddress()
     this.coins = properties.coins || [new Coin()]
   }
 
@@ -36,7 +36,7 @@ export class Input {
 
 export class Output {
   constructor (properties = {}) {
-    this.address = properties.address || new AccAddress(0)
+    this.address = properties.address || new AccAddress()
     this.coins = properties.coins || [new Coin()]
   }
 
@@ -112,5 +112,20 @@ export class MsgSend extends Msg {
     this.output.forEach(function (output) {
       output.validateBasic()
     })
+  }
+
+  toJSON () {
+    let inputs = []
+    this.input.forEach(item => {
+      inputs.push(item.toJSON())
+    })
+    let outputs = []
+    this.output.forEach(item => {
+      outputs.push(item.toJSON())
+    })
+    return {
+      input: inputs,
+      output: outputs
+    }
   }
 }

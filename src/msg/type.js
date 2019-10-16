@@ -1,5 +1,4 @@
 import * as Bech32 from 'bech32';
-import config from "../config";
 
 export class Msg {
   getSignBytes () {}
@@ -7,25 +6,25 @@ export class Msg {
   toJSON () {}
 }
 
-export class PubKeySecp256k1 extends Buffer {
-  constructor (data) {
-    super(data)
+export class PubKeySecp256k1{
+  constructor (data = []) {
+    return Buffer.from(data)
   }
 }
 
-export class SignatureSecp256k1 extends Buffer {
-  constructor (data) {
-    super(data)
+export class SignatureSecp256k1{
+  constructor (data = []) {
+    return Buffer.from(data)
   }
 }
 
-export class AccAddress extends Buffer {
-  constructor (data) {
-    super(data);
-    this.toString = function (prefix) {
-      const depositor = Bech32.toWords(this)
-      return Bech32.encode(prefix, depositor)
+export class AccAddress{
+  constructor (data = []) {
+    let buf = Buffer.from(data)
+    buf.toString = function (prefix) {
+      return convert(prefix,this)
     }
+    return buf
   }
 }
 
@@ -34,4 +33,9 @@ export class Coin {
     this.denom = denom || ''
     this.amount = amount || ''
   }
+}
+
+const convert = (prefix,data) => {
+  const depositor = Bech32.toWords(data)
+  return Bech32.encode(prefix, depositor)
 }

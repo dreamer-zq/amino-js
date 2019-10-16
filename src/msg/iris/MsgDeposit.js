@@ -7,7 +7,7 @@ export class MsgDeposit extends Msg {
   constructor (properties = {}) {
     super()
     this.proposalID = properties.proposalID || 0
-    this.depositor = properties.depositor || new AccAddress(0)
+    this.depositor = properties.depositor || new AccAddress()
     this.amount = properties.amount || new Coin()
   }
 

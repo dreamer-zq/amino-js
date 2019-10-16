@@ -7,7 +7,7 @@ export class MsgVote extends Msg {
   constructor (properties = {}) {
     super()
     this.proposalID = properties.proposalID || 0
-    this.voter = properties.voter || new AccAddress(0)
+    this.voter = properties.voter || new AccAddress()
     this.option = properties.option || 0
   }
 

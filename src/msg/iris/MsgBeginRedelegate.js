@@ -5,9 +5,9 @@ import {Msg,AccAddress} from '../type'
 export class MsgBeginRedelegate extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
-    this.validatorSrcAddr = properties.validatorSrcAddr || new AccAddress(0)
-    this.validatorDstAddr = properties.validatorDstAddr || new AccAddress(0)
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress()
+    this.validatorSrcAddr = properties.validatorSrcAddr || new AccAddress()
+    this.validatorDstAddr = properties.validatorDstAddr || new AccAddress()
     this.sharesAmount = properties.sharesAmount || ''
   }
 

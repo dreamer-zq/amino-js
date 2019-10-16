@@ -7,7 +7,7 @@ import {Msg,AccAddress} from '../type'
 export class MsgWithdrawDelegatorRewardsAll extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress()
   }
 
   static create (delegatorAddr) {
