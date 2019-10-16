@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import * as Bech32 from 'bech32'
 import {Msg,AccAddress} from '../type'
 
 export class MsgBeginRedelegate extends Msg {
@@ -22,13 +21,10 @@ export class MsgBeginRedelegate extends Msg {
   }
 
   getSignBytes () {
-    const delegator = Bech32.toWords(this.delegatorAddr)
-    const validatorSrcAddr = Bech32.toWords(this.validatorSrcAddr)
-    const validatorDstAddr = Bech32.toWords(this.validatorDstAddr)
     return {
-      delegator_addr: Bech32.encode(config.iris.bech32.accAddr, delegator),
-      validator_src_addr: Bech32.encode(config.iris.bech32.valAddr, validatorSrcAddr),
-      validator_dst_addr: Bech32.encode(config.iris.bech32.valAddr, validatorDstAddr),
+      delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
+      validator_src_addr: this.validatorSrcAddr.toString(config.iris.bech32.valAddr),
+      validator_dst_addr: this.validatorDstAddr.toString(config.iris.bech32.valAddr),
       shares: this.sharesAmount
     }
   }
@@ -52,13 +48,10 @@ export class MsgBeginRedelegate extends Msg {
   }
 
   toJSON () {
-    const delegator = Bech32.toWords(this.delegatorAddr)
-    const validatorSrcAddr = Bech32.toWords(this.validatorSrcAddr)
-    const validatorDstAddr = Bech32.toWords(this.validatorDstAddr)
     return {
-      delegatorAddr: Bech32.encode(config.iris.bech32.accAddr, delegator),
-      validatorSrcAddr: Bech32.encode(config.iris.bech32.valAddr, validatorSrcAddr),
-      validatorDstAddr: Bech32.encode(config.iris.bech32.valAddr, validatorDstAddr),
+      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
+      validatorSrcAddr: new AccAddress(this.validatorSrcAddr).toString(config.iris.bech32.valAddr),
+      validatorDstAddr: new AccAddress(this.validatorDstAddr).toString(config.iris.bech32.valAddr),
       sharesAmount: this.sharesAmount
     }
   }

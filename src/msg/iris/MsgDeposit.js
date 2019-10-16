@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import * as Bech32 from 'bech32'
 import { Codec } from '../../index'
 import {Msg,AccAddress,Coin} from '../type'
 
@@ -22,10 +21,9 @@ export class MsgDeposit extends Msg {
 
   getSignBytes () {
     const msg = Codec.marshalJSON(this) // TODO
-    const depositor = Bech32.toWords(this.depositor)
     msg.value = {
       proposal_id: this.proposalID,
-      depositor: Bech32.encode(config.iris.bech32.accAddr, depositor),
+      depositor: this.depositor.toString(config.iris.bech32.accAddr),
       amount: this.amount
     }
     return Utils.sortObjectKeys(msg)
@@ -46,10 +44,9 @@ export class MsgDeposit extends Msg {
   }
 
   toJSON () {
-    const depositor = Bech32.toWords(this.depositor)
     return {
       proposalID: this.proposalID,
-      depositor: Bech32.encode(config.iris.bech32.accAddr, depositor),
+      depositor: new AccAddress(this.depositor).toString(config.iris.bech32.accAddr),
       amount: this.amount
     }
   }

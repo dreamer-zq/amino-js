@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import * as Bech32 from 'bech32'
 import {Msg,AccAddress,Coin} from '../type'
 
 export class Input {
@@ -10,9 +9,8 @@ export class Input {
   }
 
   getSignBytes () {
-    const strByte = Bech32.toWords(this.address)
     const msg = {
-      address: Bech32.encode(config.iris.bech32.accAddr, strByte),
+      address: this.address.toString(config.iris.bech32.accAddr),
       coins: this.coins
     }
     return Utils.sortObjectKeys(msg)
@@ -29,9 +27,8 @@ export class Input {
   }
 
   toJSON () {
-    const strByte = Bech32.toWords(this.address)
     return {
-      address: Bech32.encode(config.iris.bech32.accAddr, strByte),
+      address: new AccAddress(this.address).toString(config.iris.bech32.accAddr),
       coins: this.coins
     }
   }
@@ -44,9 +41,8 @@ export class Output {
   }
 
   getSignBytes () {
-    const strByte = Bech32.toWords(this.address)
     const msg = {
-      address: Bech32.encode(config.iris.bech32.accAddr, strByte),
+      address: this.address.toString(config.iris.bech32.accAddr),
       coins: this.coins
     }
     return Utils.sortObjectKeys(msg)
@@ -63,9 +59,8 @@ export class Output {
   }
 
   toJSON () {
-    const strByte = Bech32.toWords(this.address)
     return {
-      address: Bech32.encode(config.iris.bech32.accAddr, strByte),
+      address: new AccAddress(this.address).toString(config.iris.bech32.accAddr),
       coins: this.coins
     }
   }

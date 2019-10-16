@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import * as Bech32 from 'bech32'
 import { Codec } from '../../index'
 import {Msg,AccAddress} from '../type'
 
@@ -19,9 +18,8 @@ export class MsgWithdrawDelegatorRewardsAll extends Msg {
 
   getSignBytes () {
     const msg = Codec.marshalJSON(this) // TODO
-    const delegator = Bech32.toWords(this.delegatorAddr)
     msg.value = {
-      delegator_addr: Bech32.encode(config.iris.bech32.accAddr, delegator)
+      delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
     }
     return Utils.sortObjectKeys(msg)
   }
@@ -33,9 +31,8 @@ export class MsgWithdrawDelegatorRewardsAll extends Msg {
   }
 
   toJSON () {
-    const delegator = Bech32.toWords(this.delegatorAddr)
     return {
-      delegatorAddr: Bech32.encode(config.iris.bech32.accAddr, delegator)
+      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
     }
   }
 }

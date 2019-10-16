@@ -1,8 +1,8 @@
-import { Codec, setNetwork, IRIS ,Type} from '../lib'
+import { Codec, setNetwork, IRIS ,Type} from '../src'
 import chai from 'chai'
 import { Buffer } from 'safe-buffer'
 
-// setNetwork('testnet')
+//setNetwork('testnet')
 
 const assert = chai.assert
 const sender = new Type.AccAddress([76, 88, 159, 138, 37, 0, 233, 9, 9, 54, 6, 236, 43, 14, 141, 39, 151, 170, 233, 196])
@@ -42,7 +42,7 @@ describe('codec', () => {
     const signature = new Type.AccAddress([193, 24, 243, 215, 239, 140, 54, 246, 94, 208, 225, 111, 23, 28, 148, 226, 15, 83, 253, 86, 85, 156, 86, 157, 118, 116, 34, 229, 72, 180, 89, 133, 56, 242, 105, 189, 30, 54, 110, 109, 44, 0, 200, 193, 40, 189, 10, 131, 197, 207, 219, 203, 158, 179, 89, 87, 228, 196, 225, 75, 138, 41, 90, 230])
     const sequence = 12
     const msg = IRIS.MsgDelegate.create(sender, validator, new Type.Coin('iris-atto', '1000000000000000000000000'))
-    //console.log(JSON.stringify(msg.getSignBytes()))
+    console.log(JSON.stringify(msg.getSignBytes()))
 
     const stdSignature = new IRIS.StdSignature(pub_key, [signature], account_number, sequence)
     const stdTx = new IRIS.StdTx({
@@ -60,11 +60,21 @@ describe('codec', () => {
     assert.equal(JSON.stringify(stdTx), JSON.stringify(stdTx2))
   })
 
+  it('encode and decode MsgSend', () => {
+    const tx = 'lQLZHnawCnYqlySsCjcKFC6/cL8F+3dHt2r62OzI6F3XxuF4Eh8KCWlyaXMtYXR0bxISNzMwNDAxMTQwMDAwMDAwMDAwEjcKFDvFEHUEs4I/M1dfXMv4UZ0X4TtOEh8KCWlyaXMtYXR0bxISNzMwNDAxMTQwMDAwMDAwMDAwEiYKIAoJaXJpcy1hdHRvEhMyMDAwMDAwMDAwMDAwMDAwMDAwENCGAxpvCibrWumHIQKrcrNnTlL4OB0UB5174OFJ/VCAJXXtdWMETpO6AhxzyRJAMl9mh9h9dD10M27FPGJUhAdjvTAEwN9J/wRyT1A/deYbwzIDUBKIDkSLfNbsTtuG2GGdj01Ybq9WIIiC2EjFkBizQiAn'
+    const txBz = new Buffer(tx, 'base64')
+    const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
+    console.log(JSON.stringify(stdTx))
+
+    const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
+    assert.equal(Buffer.from(bz).toString("base64"), tx)
+  })
+
   it('encode and decode MsgDelegate', () => {
     const tx = '+gHZHnawClZq9q87ChRvnmOH06Nbe/HjZ3UHiJvFNIoqWBIUQUjWqc1EICBEmntpvID7SMRea2UaJAoJaXJpcy1hdHRvEhc1NjQ4ODAwMDAwMDAwMDAwMDAwMDAwMBIlCh8KCWlyaXMtYXR0bxISNjAwMDAwMDAwMDAwMDAwMDAwEKCNBhpvCibrWumHIQNzWoVZHQoK31cW7odpxs23ONYfYwG4LcoM5qeR/Uxm9hJAV1ZYiGClvu3eI/HjkYyEYCNqpSUoG7EbUf+gIfKMGrhebhhsrZr0CGAJC7FkOY89a2A7yDmloqEbeUZkAnmdtBjERyAIIgQ5ODg3'
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -74,7 +84,7 @@ describe('codec', () => {
     const tx = '8gHZHnawClRT7PhYChTdgrgCKoPmoT9SdJLS8twmPJMRGRIUsPscdczRrb6Pmuq0nJuuqU7DynQaIjEwOTQ5OTg0OTkxMTM1MDgyMDY3Nzk1MTAwMDAwMDAwMDASJQofCglpcmlzLWF0dG8SEjQwMDAwMDAwMDAwMDAwMDAwMBDQhgMabwom61rphyEDk4uM/r0JDdyhjsz/ex9orRFnJTuh8tH9pOgFZNDkyFgSQABDQ76Vkdo6e9EGd3xNBjBDtiVY0dVZ3+vWPrsT14sBGD3EX9OE5KHv+rKHjgR50sjZdUYjYyq9v94Lp2VFmJ0YskAgSg=='
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -84,7 +94,7 @@ describe('codec', () => {
     const tx = 'hALZHnawCmbmQ/puChQC9+u6uqusOvo2ODkX3Qy6lI6tthIUQUjWqc1EICBEmntpvID7SMRea2UaFNB+E+NptKEAqUpfQaCzW7bPigelIh4xMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDASJQofCglpcmlzLWF0dG8SEjYwMDAwMDAwMDAwMDAwMDAwMBCgjQYabwom61rphyEDsDWWEH8Vk26m7kAeWEvFs2KCA2N3wkcS5buhvO00QiMSQKpYIN8aR2DXhLVWjfkl5ogdWXjtJh+TCPBb3pm6Tmz6RWWvd/E2mOOmEBuNwj72u3vs6t+goszgtcJxrLyLwWgY8wEgIA=='
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -94,7 +104,7 @@ describe('codec', () => {
     const tx = 'uAHZHnawChqx48v2ChTRWOI+bQmvN3llDpuBRcgFX52qIxIlCh8KCWlyaXMtYXR0bxISMzAwMDAwMDAwMDAwMDAwMDAwENCGAxpvCibrWumHIQJh6kuzo3CwUw56hUps57pBj6ibCASnEVQnmYdf5OUnUBJAilxVDNFtccovePZxN0lO3et7gYTziynRkBlTU+G3yMBXbU/B2lZKLJcyx1iNAKHIDgKe/yIJgNacP7Jil6wrqRjWRSAU'
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -104,7 +114,7 @@ describe('codec', () => {
     const tx = '5QHZHnawCjAgaOF3ChR+paZ+hdKVgHIHvajf4puIH3jinxIUQUjWqc1EICBEmntpvID7SMRea2USJQofCglpcmlzLWF0dG8SEjMwMDAwMDAwMDAwMDAwMDAwMBDQhgMabwom61rphyEDeH+Mr6ANGac8ePCw12l1AMyHCmLXrWbq5d45+XEI5nMSQMtFKGYmPYM5ZOF3ZfmMd7vjcm1IySBK12y+gtXYHmXiJYHFftQ5oaCIkGzAxS7Yw296FXgazcGNhkeCoPdpFpkYgEQgIiIV5aeU5omY5Lq66aKG5Y+W5aWW5Yqx'
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -114,7 +124,7 @@ describe('codec', () => {
     const tx = '3wHZHnawCkFGLTT6CAQSFKnd9CBCEFz4g9dvcZQWtt+ZdbqNGiMKCWlyaXMtYXR0bxIWMTAwMDAwMDAwMDAwMDAwMDAwMDAwMBIlCh8KCWlyaXMtYXR0bxISNDAwMDAwMDAwMDAwMDAwMDAwENCGAxpvCibrWumHIQJwkFdozku6b74ivnWky3baFFC0L49dnp5hSgvPOGNMqhJAKtZNyGb9Ee+b5zNUGh9DbrzRhPZipUQ+JbydOk5QMww3Yrg7MYIwNVJ9PVwxeyruBRUb/cQGo9LVxID4ecVX0RjZQCAr'
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -124,15 +134,15 @@ describe('codec', () => {
     const tx = 'vAHZHnawCh4KuBjmCAQSFIUDainSsTukx5MtFvxLIXZ+4wE3GAMSJQofCglpcmlzLWF0dG8SEjQwMDAwMDAwMDAwMDAwMDAwMBDQhgMabwom61rphyECssg4jFHxaEV7uMZTNtyIipBVSGs5w7GErB9sxehYYGwSQDSqwCD50S3DJZTz9+kX49VvqGz7AaJqTPFEVV3uQPchf0Hj7PW2/0oAgQk5admpCcu14AHzv7THT4igOZtpSIsYsAIgIA=='
     const txBz = new Buffer(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
   })
   //
-  // it('MsgVote', () => {
-  //   console.log(new IRIS.MsgVote() instanceof IRIS.MsgVote)
-  //   console.log(new IRIS.MsgVote() instanceof Type.Msg)
-  //   console.log(new Type.AccAddress(0) instanceof Buffer)
-  // })
+  it('MsgVote', () => {
+    console.log(new Type.AccAddress(0) instanceof Type.AccAddress)
+    console.log(new Type.AccAddress(0) instanceof Buffer)
+    console.log(sender.toString("iaa"))
+  })
 })

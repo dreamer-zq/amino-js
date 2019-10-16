@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import * as Bech32 from 'bech32'
 import { Codec } from '../../index'
 import {Msg,AccAddress,Coin} from '../type'
 
@@ -22,11 +21,9 @@ export class MsgDelegate extends Msg {
 
   getSignBytes () {
     const msg = Codec.marshalJSON(this) // TODO
-    const delegator = Bech32.toWords(this.delegatorAddr)
-    const validator = Bech32.toWords(this.validatorAddr)
     msg.value = {
-      delegator_addr: Bech32.encode(config.iris.bech32.accAddr, delegator),
-      validator_addr: Bech32.encode(config.iris.bech32.valAddr, validator),
+      delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
+      validator_addr: this.validatorAddr.toString(config.iris.bech32.valAddr),
       delegation: this.delegation
     }
     return Utils.sortObjectKeys(msg)
@@ -47,11 +44,9 @@ export class MsgDelegate extends Msg {
   }
 
   toJSON () {
-    const delegator = Bech32.toWords(this.delegatorAddr)
-    const validator = Bech32.toWords(this.validatorAddr)
     return {
-      delegatorAddr: Bech32.encode(config.iris.bech32.accAddr, delegator),
-      validatorAddr: Bech32.encode(config.iris.bech32.valAddr, validator),
+      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
+      validatorAddr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
       delegation: this.delegation
     }
   }
