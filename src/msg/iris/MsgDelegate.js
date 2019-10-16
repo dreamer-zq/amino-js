@@ -1,16 +1,15 @@
 import config from '../../config'
 import Utils from '../../utils'
 import * as Bech32 from 'bech32'
-import * as Tx from './StdTx'
 import { Codec } from '../../index'
-import Msg from '../Msg'
+import {Msg,AccAddress,Coin} from '../type'
 
 export class MsgDelegate extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new Tx.AccAddress(0)
-    this.validatorAddr = properties.validatorAddr || new Tx.AccAddress(0)
-    this.delegation = properties.delegation || new Tx.Coin()
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
+    this.validatorAddr = properties.validatorAddr || new AccAddress(0)
+    this.delegation = properties.delegation || new Coin()
   }
 
   static create (delegatorAddr, validatorAddr, delegation) {

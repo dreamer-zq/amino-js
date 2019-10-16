@@ -1,15 +1,14 @@
 import config from '../../config'
 import Utils from '../../utils'
 import * as Bech32 from 'bech32'
-import * as Tx from './StdTx'
 import { Codec } from '../../index'
-import Msg from '../Msg'
+import {Msg,AccAddress} from '../type'
 
 export class MsgWithdrawDelegatorReward extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new Tx.AccAddress(0)
-    this.validatorAddr = properties.validatorAddr || new Tx.AccAddress(0)
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
+    this.validatorAddr = properties.validatorAddr || new AccAddress(0)
   }
 
   static create (delegatorAddr, validatorAddr, delegation) {

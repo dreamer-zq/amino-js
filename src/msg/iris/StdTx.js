@@ -1,18 +1,4 @@
-export class PubKeySecp256k1 extends Buffer {
-  constructor (data) {
-    super(data)
-  }
-}
-export class SignatureSecp256k1 extends Buffer {
-  constructor (data) {
-    super(data)
-  }
-}
-export class AccAddress extends Buffer {
-  constructor (data) {
-    super(data)
-  }
-}
+import {PubKeySecp256k1,SignatureSecp256k1,Coin} from '../type'
 
 export class StdTx {
   constructor (properties = {}) {
@@ -58,12 +44,5 @@ export class StdSignature {
       account_number: this.account_number,
       sequence: this.sequence
     }
-  }
-}
-
-export class Coin {
-  constructor (denom, amount) {
-    this.denom = denom || ''
-    this.amount = amount || ''
   }
 }

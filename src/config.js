@@ -1,6 +1,6 @@
 const config = {
   iris: {
-    model: {
+    type: {
       MsgSend: 'irishub/bank/Send',
       MsgDelegate: 'irishub/stake/MsgDelegate',
       MsgBeginUnbonding: 'irishub/stake/BeginUnbonding',
@@ -21,7 +21,7 @@ const config = {
     }
   },
   cosmos: {
-    model: {
+    type: {
       msgSend: 'cosmos-sdk/MsgSend',
       msgDelegate: 'cosmos-sdk/MsgDelegate',
       msgUndelegate: 'cosmos-sdk/MsgUndelegate',

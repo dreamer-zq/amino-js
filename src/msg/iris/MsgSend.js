@@ -1,13 +1,12 @@
 import config from '../../config'
 import Utils from '../../utils'
 import * as Bech32 from 'bech32'
-import * as Tx from './StdTx'
-import Msg from '../Msg'
+import {Msg,AccAddress,Coin} from '../type'
 
 export class Input {
   constructor (properties = {}) {
-    this.address = properties.address || new Tx.AccAddress(0)
-    this.coins = properties.coins || [new Tx.Coin()]
+    this.address = properties.address || new AccAddress(0)
+    this.coins = properties.coins || [new Coin()]
   }
 
   getSignBytes () {
@@ -40,8 +39,8 @@ export class Input {
 
 export class Output {
   constructor (properties = {}) {
-    this.address = properties.address || new Tx.AccAddress(0)
-    this.coins = properties.coins || [new Tx.Coin()]
+    this.address = properties.address || new AccAddress(0)
+    this.coins = properties.coins || [new Coin()]
   }
 
   getSignBytes () {

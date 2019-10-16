@@ -1,15 +1,14 @@
 import config from '../../config'
 import Utils from '../../utils'
 import * as Bech32 from 'bech32'
-import * as Tx from './StdTx'
-import Msg from '../Msg'
+import {Msg,AccAddress} from '../type'
 
 export class MsgBeginRedelegate extends Msg {
   constructor (properties = {}) {
     super()
-    this.delegatorAddr = properties.delegatorAddr || new Tx.AccAddress(0)
-    this.validatorSrcAddr = properties.validatorSrcAddr || new Tx.AccAddress(0)
-    this.validatorDstAddr = properties.validatorDstAddr || new Tx.AccAddress(0)
+    this.delegatorAddr = properties.delegatorAddr || new AccAddress(0)
+    this.validatorSrcAddr = properties.validatorSrcAddr || new AccAddress(0)
+    this.validatorDstAddr = properties.validatorDstAddr || new AccAddress(0)
     this.sharesAmount = properties.sharesAmount || ''
   }
 

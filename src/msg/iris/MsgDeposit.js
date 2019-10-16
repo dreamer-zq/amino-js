@@ -1,16 +1,15 @@
 import config from '../../config'
 import Utils from '../../utils'
 import * as Bech32 from 'bech32'
-import * as Tx from './StdTx'
 import { Codec } from '../../index'
-import Msg from '../Msg'
+import {Msg,AccAddress,Coin} from '../type'
 
 export class MsgDeposit extends Msg {
   constructor (properties = {}) {
     super()
     this.proposalID = properties.proposalID || 0
-    this.depositor = properties.depositor || new Tx.AccAddress(0)
-    this.amount = properties.amount || new Tx.Coin()
+    this.depositor = properties.depositor || new AccAddress(0)
+    this.amount = properties.amount || new Coin()
   }
 
   static create (proposalID, depositor, amount) {
