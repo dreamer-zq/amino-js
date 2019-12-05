@@ -128,4 +128,8 @@ export class MsgSend extends Msg {
       output: outputs
     }
   }
+
+  static getType() {
+    return "irishub/bank/Send"
+  }
 }

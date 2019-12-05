@@ -4,6 +4,7 @@ export class Msg {
   getSignBytes () {}
   validateBasic () {}
   toJSON () {}
+  static getType() {}
 }
 
 export class PubKeySecp256k1{

@@ -1,19 +1,5 @@
 const config = {
   iris: {
-    type: {
-      MsgSend: 'irishub/bank/Send',
-      MsgDelegate: 'irishub/stake/MsgDelegate',
-      MsgBeginUnbonding: 'irishub/stake/BeginUnbonding',
-      MsgBeginRedelegate: 'irishub/stake/BeginRedelegate',
-      MsgWithdrawDelegationRewardsAll: 'irishub/distr/MsgWithdrawDelegationRewardsAll',
-      MsgWithdrawDelegationReward: 'irishub/distr/MsgWithdrawDelegationReward',
-      MsgDeposit: 'irishub/gov/MsgDeposit',
-      MsgVote: 'irishub/gov/MsgVote',
-      MsgAddLiquidity: 'irishub/coinswap/MsgAddLiquidity',
-      MsgRemoveLiquidity: 'irishub/coinswap/MsgRemoveLiquidity',
-      MsgSwapOrder: 'irishub/coinswap/MsgSwapOrder',
-      StdTx: 'irishub/bank/StdTx'
-    },
     bech32: {
       accAddr: 'iaa',
       valAddr: 'iva',
@@ -21,22 +7,12 @@ const config = {
     }
   },
   cosmos: {
-    type: {
-      MsgSend: 'cosmos-sdk/MsgSend',
-      MsgDelegate: 'cosmos-sdk/MsgDelegate',
-      msgUndelegate: 'cosmos-sdk/MsgUndelegate',
-      msgBeginRedelegate: 'cosmos-sdk/MsgBeginRedelegate',
-      msgModifyWithdrawAddress: 'cosmos-sdk/MsgModifyWithdrawAddress',
-      msgWithdrawDelegationReward: 'cosmos-sdk/MsgWithdrawDelegationReward',
-      msgWithdrawValidatorCommission: 'cosmos-sdk/MsgWithdrawValidatorCommission',
-      StdTx: 'cosmos-sdk/StdTx'
-    },
     bech32: {
       accAddr: 'cosmos',
       valAddr: 'cosmosvaloper',
       accPub: 'cosmospub'
     }
   }
-}
+};
 
 export default config

@@ -55,4 +55,8 @@ export class MsgBeginRedelegate extends Msg {
       sharesAmount: this.sharesAmount
     }
   }
+
+  static getType() {
+    return "irishub/stake/BeginRedelegate"
+  }
 }

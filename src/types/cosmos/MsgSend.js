@@ -42,4 +42,8 @@ export class MsgSend extends Msg {
             coins: this.coins
         }
     }
+
+    static getType() {
+        return "cosmos-sdk/MsgSend"
+    }
 }

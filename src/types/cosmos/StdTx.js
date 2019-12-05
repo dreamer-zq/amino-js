@@ -16,6 +16,10 @@ export class StdTx {
       signatures: this.signatures
     }
   }
+
+  static getType() {
+    return "cosmos-sdk/StdTx"
+  }
 }
 
 export class StdFee {

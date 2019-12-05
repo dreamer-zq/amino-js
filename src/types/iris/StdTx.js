@@ -16,6 +16,9 @@ export class StdTx {
       signatures: this.signatures
     }
   }
+  static getType() {
+    return "irishub/bank/StdTx"
+  }
 }
 
 export class StdFee {

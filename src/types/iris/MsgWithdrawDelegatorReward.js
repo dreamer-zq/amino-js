@@ -1,21 +1,19 @@
 import config from '../../config'
 import Utils from '../../utils'
 import { Codec } from '../../index'
-import {Msg,AccAddress,Coin} from '../type'
+import {Msg,AccAddress} from '../type'
 
-export class MsgDelegate extends Msg {
+export class MsgWithdrawDelegatorReward extends Msg {
   constructor (properties = {}) {
     super()
     this.delegatorAddr = properties.delegatorAddr || new AccAddress()
     this.validatorAddr = properties.validatorAddr || new AccAddress()
-    this.delegation = properties.delegation || new Coin()
   }
 
   static create (delegatorAddr, validatorAddr, delegation) {
-    return new MsgDelegate({
+    return new MsgWithdrawDelegatorReward({
       delegatorAddr: delegatorAddr,
-      validatorAddr: validatorAddr,
-      delegation: delegation
+      validatorAddr: validatorAddr
     })
   }
 
@@ -24,7 +22,6 @@ export class MsgDelegate extends Msg {
     msg.value = {
       delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
       validator_addr: this.validatorAddr.toString(config.iris.bech32.valAddr),
-      delegation: this.delegation
     }
     return Utils.sortObjectKeys(msg)
   }
@@ -37,17 +34,16 @@ export class MsgDelegate extends Msg {
     if (Utils.isEmpty(this.validatorAddr)) {
       throw new Error('validatorAddr is empty')
     }
-
-    if (Utils.isEmpty(this.delegation)) {
-      throw new Error('delegation must great than 0')
-    }
   }
 
   toJSON () {
     return {
       delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
-      validatorAddr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
-      delegation: this.delegation
+      validatorAddr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr)
     }
+  }
+
+  static getType() {
+    return "irishub/distr/MsgWithdrawDelegationReward"
   }
 }

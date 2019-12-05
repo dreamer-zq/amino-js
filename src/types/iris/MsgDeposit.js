@@ -50,4 +50,8 @@ export class MsgDeposit extends Msg {
       amount: this.amount
     }
   }
+
+  static getType() {
+    return "irishub/gov/MsgDeposit"
+  }
 }

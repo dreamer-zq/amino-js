@@ -50,4 +50,8 @@ export class MsgVote extends Msg {
       option: this.option
     }
   }
+
+  static getType() {
+    return "irishub/gov/MsgVote"
+  }
 }
