@@ -1,5 +1,5 @@
 import * as iris from './msg/iris'
-// import * as cosmos from './msg/cosmos'
+import * as cosmos from './msg/cosmos'
 import config from './config'
 import * as amino from './codec'
 import * as type from "./msg/type"
@@ -14,9 +14,11 @@ codec.registerConcrete(iris.MsgWithdrawDelegatorRewardsAll, config.iris.type.Msg
 codec.registerConcrete(iris.MsgWithdrawDelegatorReward, config.iris.type.MsgWithdrawDelegationReward)
 codec.registerConcrete(iris.MsgDeposit, config.iris.type.MsgDeposit)
 codec.registerConcrete(iris.MsgVote, config.iris.type.MsgVote)
+codec.registerConcrete(cosmos.MsgSend, config.cosmos.type.MsgSend)
+codec.registerConcrete(cosmos.StdTx, config.cosmos.type.StdTx)
 
 export const IRIS = iris
-// export const COSMOS = cosmos
+export const COSMOS = cosmos
 export const Codec = codec
 export const Type = type
 

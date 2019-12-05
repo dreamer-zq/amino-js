@@ -22,14 +22,14 @@ const config = {
   },
   cosmos: {
     type: {
-      msgSend: 'cosmos-sdk/MsgSend',
-      msgDelegate: 'cosmos-sdk/MsgDelegate',
+      MsgSend: 'cosmos-sdk/MsgSend',
+      MsgDelegate: 'cosmos-sdk/MsgDelegate',
       msgUndelegate: 'cosmos-sdk/MsgUndelegate',
       msgBeginRedelegate: 'cosmos-sdk/MsgBeginRedelegate',
       msgModifyWithdrawAddress: 'cosmos-sdk/MsgModifyWithdrawAddress',
       msgWithdrawDelegationReward: 'cosmos-sdk/MsgWithdrawDelegationReward',
       msgWithdrawValidatorCommission: 'cosmos-sdk/MsgWithdrawValidatorCommission',
-      stdTx: 'cosmos-sdk/StdTx'
+      StdTx: 'cosmos-sdk/StdTx'
     },
     bech32: {
       accAddr: 'cosmos',
