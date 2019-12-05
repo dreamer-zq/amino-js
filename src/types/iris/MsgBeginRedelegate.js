@@ -49,10 +49,10 @@ export class MsgBeginRedelegate extends Msg {
 
   toJSON () {
     return {
-      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
-      validatorSrcAddr: new AccAddress(this.validatorSrcAddr).toString(config.iris.bech32.valAddr),
-      validatorDstAddr: new AccAddress(this.validatorDstAddr).toString(config.iris.bech32.valAddr),
-      sharesAmount: this.sharesAmount
+      delegator_addr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
+      validator_src_addr: new AccAddress(this.validatorSrcAddr).toString(config.iris.bech32.valAddr),
+      validator_dst_addr: new AccAddress(this.validatorDstAddr).toString(config.iris.bech32.valAddr),
+      shares_amount: this.sharesAmount
     }
   }
 

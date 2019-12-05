@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import { Codec } from '../../index'
 import {Msg,AccAddress,Coin} from '../type'
 
 export class MsgDeposit extends Msg {
@@ -19,16 +18,6 @@ export class MsgDeposit extends Msg {
     })
   }
 
-  getSignBytes () {
-    const msg = Codec.marshalJSON(this) // TODO
-    msg.value = {
-      proposal_id: this.proposalID,
-      depositor: this.depositor.toString(config.iris.bech32.accAddr),
-      amount: this.amount
-    }
-    return Utils.sortObjectKeys(msg)
-  }
-
   validateBasic () {
     if (Utils.isEmpty(this.proposalID)) {
       throw new Error('proposalID is empty')
@@ -45,7 +34,7 @@ export class MsgDeposit extends Msg {
 
   toJSON () {
     return {
-      proposalID: this.proposalID,
+      proposal_id: this.proposalID,
       depositor: new AccAddress(this.depositor).toString(config.iris.bech32.accAddr),
       amount: this.amount
     }

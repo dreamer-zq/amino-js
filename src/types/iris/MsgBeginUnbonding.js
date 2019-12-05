@@ -7,23 +7,15 @@ export class MsgBeginUnbonding extends Msg {
     super()
     this.delegatorAddr = properties.delegatorAddr || new AccAddress()
     this.validatorAddr = properties.validatorAddr || new AccAddress()
-    this.shares = properties.shares || ''
+    this.sharesAmount = properties.sharesAmount || ''
   }
 
-  static create (delegatorAddr, validatorAddr, shares) {
+  static create (delegatorAddr, validatorAddr, sharesAmount) {
     return new MsgBeginUnbonding({
       delegatorAddr: delegatorAddr,
       validatorAddr: validatorAddr,
-      shares: shares
+      sharesAmount: sharesAmount
     })
-  }
-
-  getSignBytes () {
-    return {
-      delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
-      validator_addr: this.validatorAddr.toString(config.iris.bech32.valAddr),
-      shares_amount: this.shares
-    }
   }
 
   validateBasic () {
@@ -35,16 +27,16 @@ export class MsgBeginUnbonding extends Msg {
       throw new Error('validatorAddr is empty')
     }
 
-    if (Utils.isEmpty(this.shares)) {
+    if (Utils.isEmpty(this.sharesAmount)) {
       throw new Error('shares must great than 0')
     }
   }
 
   toJSON () {
     return {
-      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
-      validatorAddr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
-      shares: this.shares
+      delegator_addr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
+      validator_addr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
+      shares_amount: this.sharesAmount
     }
   }
 

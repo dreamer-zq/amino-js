@@ -116,7 +116,7 @@ export default class Encoder {
     const msg = {}
     if (this._typePrefixes[obj.__msgType__]) {
       msg.type = obj.__msgType__
-      msg.value = obj
+      msg.value = obj.toJSON()
       return msg
     }
     return obj

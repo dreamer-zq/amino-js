@@ -1,6 +1,8 @@
 import config from '../../config'
 import Utils from '../../utils'
+import { Codec } from '../../index'
 import {Msg,AccAddress,Coin} from '../type'
+
 
 export class Input {
   constructor (properties = {}) {
@@ -9,10 +11,7 @@ export class Input {
   }
 
   getSignBytes () {
-    const msg = {
-      address: this.address.toString(config.iris.bech32.accAddr),
-      coins: this.coins
-    }
+    const msg = Codec.marshalJSON(this);
     return Utils.sortObjectKeys(msg)
   }
 
@@ -41,10 +40,7 @@ export class Output {
   }
 
   getSignBytes () {
-    const msg = {
-      address: this.address.toString(config.iris.bech32.accAddr),
-      coins: this.coins
-    }
+    const msg = Codec.marshalJSON(this);
     return Utils.sortObjectKeys(msg)
   }
 

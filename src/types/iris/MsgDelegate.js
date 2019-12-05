@@ -1,6 +1,5 @@
 import config from '../../config'
 import Utils from '../../utils'
-import { Codec } from '../../index'
 import {Msg,AccAddress,Coin} from '../type'
 
 export class MsgDelegate extends Msg {
@@ -19,16 +18,6 @@ export class MsgDelegate extends Msg {
     })
   }
 
-  getSignBytes () {
-    const msg = Codec.marshalJSON(this) // TODO
-    msg.value = {
-      delegator_addr: this.delegatorAddr.toString(config.iris.bech32.accAddr),
-      validator_addr: this.validatorAddr.toString(config.iris.bech32.valAddr),
-      delegation: this.delegation
-    }
-    return Utils.sortObjectKeys(msg)
-  }
-
   validateBasic () {
     if (Utils.isEmpty(this.delegatorAddr)) {
       throw new Error('delegatorAddr is empty')
@@ -45,8 +34,8 @@ export class MsgDelegate extends Msg {
 
   toJSON () {
     return {
-      delegatorAddr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
-      validatorAddr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
+      delegator_addr: new AccAddress(this.delegatorAddr).toString(config.iris.bech32.accAddr),
+      validator_addr: new AccAddress(this.validatorAddr).toString(config.iris.bech32.valAddr),
       delegation: this.delegation
     }
   }

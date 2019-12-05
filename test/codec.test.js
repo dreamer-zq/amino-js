@@ -34,7 +34,6 @@ describe('codec', () => {
 
     const stdTx2 = Codec.unMarshalBinaryLengthPrefixed(bytes)
     assert.equal(JSON.stringify(stdTx), JSON.stringify(stdTx2))
-   // console.log(JSON.stringify(stdTx))
   })
 
   it('encode MsgDelegate', () => {
@@ -42,6 +41,7 @@ describe('codec', () => {
     const signature = new Type.SignatureSecp256k1([193, 24, 243, 215, 239, 140, 54, 246, 94, 208, 225, 111, 23, 28, 148, 226, 15, 83, 253, 86, 85, 156, 86, 157, 118, 116, 34, 229, 72, 180, 89, 133, 56, 242, 105, 189, 30, 54, 110, 109, 44, 0, 200, 193, 40, 189, 10, 131, 197, 207, 219, 203, 158, 179, 89, 87, 228, 196, 225, 75, 138, 41, 90, 230])
     const sequence = 12
     const msg = IRIS.MsgDelegate.create(sender, validator, new Type.Coin('iris-atto', '1000000000000000000000000'))
+
     console.log(JSON.stringify(msg.getSignBytes()))
 
     const stdSignature = new IRIS.StdSignature(pub_key, [signature], account_number, sequence)
@@ -64,7 +64,7 @@ describe('codec', () => {
     const tx = 'lQLZHnawCnYqlySsCjcKFC6/cL8F+3dHt2r62OzI6F3XxuF4Eh8KCWlyaXMtYXR0bxISNzMwNDAxMTQwMDAwMDAwMDAwEjcKFDvFEHUEs4I/M1dfXMv4UZ0X4TtOEh8KCWlyaXMtYXR0bxISNzMwNDAxMTQwMDAwMDAwMDAwEiYKIAoJaXJpcy1hdHRvEhMyMDAwMDAwMDAwMDAwMDAwMDAwENCGAxpvCibrWumHIQKrcrNnTlL4OB0UB5174OFJ/VCAJXXtdWMETpO6AhxzyRJAMl9mh9h9dD10M27FPGJUhAdjvTAEwN9J/wRyT1A/deYbwzIDUBKIDkSLfNbsTtuG2GGdj01Ybq9WIIiC2EjFkBizQiAn'
     const txBz = Buffer.from(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
+    console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -84,7 +84,6 @@ describe('codec', () => {
     const tx = '8gHZHnawClRT7PhYChTdgrgCKoPmoT9SdJLS8twmPJMRGRIUsPscdczRrb6Pmuq0nJuuqU7DynQaIjEwOTQ5OTg0OTkxMTM1MDgyMDY3Nzk1MTAwMDAwMDAwMDASJQofCglpcmlzLWF0dG8SEjQwMDAwMDAwMDAwMDAwMDAwMBDQhgMabwom61rphyEDk4uM/r0JDdyhjsz/ex9orRFnJTuh8tH9pOgFZNDkyFgSQABDQ76Vkdo6e9EGd3xNBjBDtiVY0dVZ3+vWPrsT14sBGD3EX9OE5KHv+rKHjgR50sjZdUYjYyq9v94Lp2VFmJ0YskAgSg=='
     const txBz = Buffer.from(tx, 'base64')
     const stdTx = Codec.unMarshalBinaryLengthPrefixed(txBz)
-    //console.log(JSON.stringify(stdTx))
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
@@ -138,11 +137,5 @@ describe('codec', () => {
 
     const bz = Codec.marshalBinaryLengthPrefixed(stdTx)
     assert.equal(Buffer.from(bz).toString("base64"), tx)
-
-
-    console.log(Codec.marshalJSON({
-      A:1,
-      B:2
-    }))
   })
 })
